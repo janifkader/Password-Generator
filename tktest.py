@@ -2,54 +2,40 @@ import tkinter as tk
 from tkinter import ttk
 import sv_ttk
 import random
+from code import create_char_pool
 
 def submit():
-    s = ""
-    l = ""
-    n = ""
-    h = ""
-    list1=[]
-    list2=[]
-    list3=[]
-    number = nums.get()
-    symbol = syms.get()
-    letter = lets.get()
-    num = 0
-    if len_var != "":
-        num = int(len_var.get())
-    res = forbid.get()
-    j=0
-    passw=""
-    if number:
-        list2 = list(range(48, 58))
-        while n in res:
-            n = chr(random.choice(list2))
-        passw += n
-        j += 1
-    if symbol:
-        list3 = list(range(33, 48)) + list(range(91, 97)) + list(range(123, 127))
-        while s in res:
-            s = chr(random.choice(list3))
-        passw += s
-        j += 1
-    if letter:
-        list1 = list(range(65, 91)) + list(range(97, 123))
-        while l in res:
-            l = chr(random.choice(list1))
-        passw += l
-        j += 1
 
-    if num > 3:
-        print("The length is : " + str(num) + ", The restrictions are: " + res)
-        listed = list1 + list2 + list3
-        for i in range(j, num):
-            while h in res:
-                h = chr(random.choice(listed))
-            passw += h
-            h = ""
+    h=""
+    use_digits = nums.get()
+    use_symbols = syms.get()
+    use_letters = lets.get()
+    char_pool = create_char_pool(use_letters, use_digits, use_symbols)
+    num = 0
+    if char_pool:
+        if len_var:
+            try:
+                num = int(len_var.get())
+            except Exception as e:
+                print("Error: Please input a valid length")
+                cur.config(text="Error: Please input a valid length")
+        res = forbid.get()
+        j=0
+        passw=""
+
+        if num > 3:
+            print("The length is : " + str(num) + ", The restrictions are: " + res)
+            for i in range(j, num):
+                while h in res:
+                    h = random.choice(char_pool)
+                passw += h
+                h = ""
+            cur.config(text="Generated Password: " + passw)
+        else:
+            cur.config(text="Error: Please input a valid length")
+        print(passw)
     else:
-        print("Please input a valid length")
-    print(passw)
+        cur.config(text="Error: You must select at least one type of character.")
     len_var.set("")
     nums.set(0)
     syms.set(0)
@@ -58,7 +44,6 @@ def submit():
 
 def only_numbers(char):
     return char.isdigit()
-
 
 if __name__ == "__main__":
 
@@ -84,6 +69,8 @@ if __name__ == "__main__":
     ttk.Checkbutton(frm, text='Symbols?', variable=syms, onvalue=1, offvalue=0).grid(column=2, row=2)
     ttk.Label(frm, text="Restrictions:").grid(column=0, row=3)
     ttk.Entry(frm, textvariable=forbid, width = 10, font=('calibre',10,'normal')).grid(column=1, row=3)
+    cur = ttk.Label(frm, text="")
+    cur.grid(column=1, row=5, sticky="w")
     ttk.Button(frm, text="Generate Password", command=submit).grid(column=0, row=4, padx=10, pady=10)
     ttk.Button(frm, text="Toggle theme", command=sv_ttk.toggle_theme).grid(column=1, row=4, padx=10, pady=10)
     ttk.Button(frm, text="Quit", command=root.destroy).grid(column= 2, row=4, padx=10, pady=10)
