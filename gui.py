@@ -1,9 +1,11 @@
+import build
+build.get_packages()
 import tkinter as tk
 from tkinter import ttk
-import sv_ttk
 from funcs import *
 from surveycode import *
 from validate import *
+import sv_ttk
 
 def submit():
 
@@ -29,8 +31,10 @@ def submit():
             cur.config(text="Generated Password: " + passw)
             score, recs = assess_strength(passw)
             strength_check = "Password Score: "  + str(score) + ", Recommendations: "
-            for rec in recs:
-                strength_check += str(rec) + ", "
+            for r in recs:
+                strength_check += str(r)
+                if r != recs[-1]:
+                    strength_check += ", "
             strength.config(text=strength_check)
         else:
             cur.config(text="Error: Please input a valid length")
@@ -82,7 +86,6 @@ def run_survey():
 if __name__ == "__main__":
 
     root = tk.Tk()
-    root.iconbitmap('Untitled.ico')
     root.title("Password Generator")
     len_var = tk.StringVar()
     forbid = tk.StringVar()

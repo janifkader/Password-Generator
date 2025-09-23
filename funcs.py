@@ -40,19 +40,19 @@ def assess_strength(password):
         score += 1
     else:
         recommendations.append("Add symbols")
-    if len(password) >= 12:
+    if length >= 12:
         score += 1
     else:
         recommendations.append("Increase length to at least 12 characters")
-        levels = { 
+    levels = {
         0: "Very Weak",
         1: "Weak",
         2: "Moderate",
         3: "Strong",
         4: "Very Strong",
         5: "Excellent",
-        }
-        return levels[score], recommendations
+     }
+    return levels[score], recommendations
     
     
 
