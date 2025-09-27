@@ -35,6 +35,8 @@ def submit():
                 strength_check += str(r)
                 if r != recs[-1]:
                     strength_check += ", "
+                else:
+                    strength_check += "."
             strength.config(text=strength_check)
         else:
             cur.config(text="Error: Please input a valid length")

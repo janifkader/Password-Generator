@@ -12,7 +12,7 @@ def create_char_pool(use_letters, use_digits, use_symbols, restrictions):
         char_pool += string.punctuation # Special Characters
     if not char_pool:
         print ("Error: You must select at least one type of character.")
-    return "".join(set(char_pool) - set(restrictions))
+    return "".join(set(char_pool) - set(restrictions) - set(restrictions.upper()))
 
 
 # Get Password Length
